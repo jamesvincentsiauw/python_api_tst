@@ -236,29 +236,17 @@ def delete():
 def get():
     try:
         conn = http.client.HTTPSConnection("api.rajaongkir.com")
-
-
-        payload = "origin=" + request.args.get('origin') + \
-                  "&destination=" + request.args.get('destination') + \
-                  "&weight=" + request.args.get('weight') + \
-                  "&courier=" + request.args.get('courier')
-
+        payload = "origin="+str(request.form.get('origin'))+"&destination="+str(request.form.get('destination'))+"&weight="+str(request.form.get('weight'))+"&courier="+str(request.form.get('courier'))
         headers = {
             'key': "8673346f00df697bd0b951de5f847598",
             'content-type': "application/x-www-form-urlencoded"
         }
-
         conn.request("POST", "/starter/cost", payload, headers)
-
         res = conn.getresponse()
         data = res.read()
-        return json.loads(data)['rajaongkir']
+        return json.dumps(json.loads(data)['rajaongkir']['results'][0]['costs'][0]['cost'][0]['value'])
     except Exception as e:
-        res = {
-            'message': "Data tidak ditemukan, periksa kembali parameter",
-            'status': 404
-        }
-        return jsonify(res)
+        return '999'
 
 
 @app.errorhandler(404)
