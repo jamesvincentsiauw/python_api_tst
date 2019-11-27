@@ -94,16 +94,16 @@ def index():
             conn = mysql.connect()
             cursor = conn.cursor()
 
-            _weight = request.args.get('weight')
-            _courier = request.args.get('courier')
-            _cost = get_cost(str(request.args.get('origin')), str(request.args.get('destination')), str(_weight),
+            _weight = request.form.get('weight')
+            _courier = request.form.get('courier')
+            _cost = get_cost(str(request.form.get('origin')), str(request.form.get('destination')), str(_weight),
                              _courier)
-            _origin = get_place('city', request.args.get('origin'))
-            _destination = get_place('city', request.args.get('destination'))
+            _origin = get_place('city', request.args.form('origin'))
+            _destination = get_place('city', request.form.get('destination'))
             if _cost != "not found" and _origin != "not found" and _destination != "not found":
                 _id = random_id()
-                _name = request.args.get('name')
-                _goods = request.args.get('goods')
+                _name = request.form.get('name')
+                _goods = request.form.get('goods')
                 _status = "packing"
                 _date = date.today().strftime("%d/%m %Y")
                 _updatedDate = date.today().strftime("%d/%m/%Y")
