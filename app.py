@@ -15,7 +15,7 @@ app.config['DEBUG'] = True
 
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Siauw_11'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'test'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
@@ -98,7 +98,7 @@ def index():
             _courier = request.form.get('courier')
             _cost = get_cost(str(request.form.get('origin')), str(request.form.get('destination')), str(_weight),
                              _courier)
-            _origin = get_place('city', request.args.form('origin'))
+            _origin = get_place('city', request.form.get('origin'))
             _destination = get_place('city', request.form.get('destination'))
             if _cost != "not found" and _origin != "not found" and _destination != "not found":
                 _id = random_id()
@@ -141,7 +141,7 @@ def index():
                     'null': notfound
                 }
         except Exception as e:
-            return e
+            return e.args
         finally:
             cursor.close()
             conn.close()
@@ -274,4 +274,4 @@ def not_found(error=None):
 
 
 if __name__ == "__main__":
-    app.run(threaded=True, host='0.0.0.0', port=4040)
+    app.run()
